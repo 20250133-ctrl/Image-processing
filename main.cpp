@@ -37,130 +37,6 @@ void Grayscale(Image& img) {
 
 
 
-void rotateImage(Image& img) {
-
-    int method;
-
-
-  
-        cout << "1. flip 90 degrees\n";
-        cout << "2. flip 180 degrees\n";
-        cout << "3. flip 270 degrees\n";
-        cout << "Choose: ";
-
-
-        cin >> method;
-
-
-
-       
-        
-        
-        
-        
-        if (method == 1) {
-           
-            
-            Image tImg(img.height, img.width);
-           
-            
-            for (int i = 0; i < img.width; ++i) {
-               
-                
-                for (int j = 0; j < img.height; ++j) {
-                
-                    
-                    tImg(img.height - 1 - j, i, 0) = img(i, j, 0);
-                   
-                    tImg(img.height - 1 - j, i, 1) = img(i, j, 1);
-                  
-                    tImg(img.height - 1 - j, i, 2) = img(i, j, 2);
-                }
-            }
-            img = tImg;
-        }
-        
-
-        // الاول عملت صوره موقته بس عشان انقل فيها الصفوف و الاعمده بالترتيب الجديد الى هعملوا
-
-        // انا هنا عايزها تتقلب 90درجه فكل الى هعملوا انى هخلى الاعمده تبقى صفوف و الصفوف اعمده و ده ان
-        
-
-
-        
-        
-        
-        
-        
-        
-        
-        else if (method == 2) {
-            Image tImg(img.width, img.height);
-           
-            
-            
-            
-            
-            for (int i = 0; i < img.width; ++i) {
-               
-                
-                
-                
-                
-                for (int j = 0; j < img.height; ++j) {
-                    
-                    
-                    tImg(img.width - 1 - i, img.height - 1 - j, 0) = img(i, j, 0);
-                   
-                    
-                    tImg(img.width - 1 - i, img.height - 1 - j, 1) = img(i, j, 1);
-                   
-                    
-                    tImg(img.width - 1 - i, img.height - 1 - j, 2) = img(i, j, 2);
-                }
-            }
-            img = tImg;
-        }
-
-
-
-
-        // الجزه ده عشان اقلب الصوره اللى فوق تحت و الى تحت فوق
-        //هنا اخر بيكسل فى الصف او العمود بيخليه الاول مثلا لو عدد البيكسل فى العمود 200 هعلخى اول بيكسل الى هو ب صفر يبقى ب199والعمليه دى هكررها على كل بيكسل
-
-
-
-
-
-
-
-        else if (method == 3) {
-            Image tImg(img.height, img.width);
-            for (int i = 0; i < img.width; ++i) {
-                for (int j = 0; j < img.height; ++j) {
-                    
-                    
-                    tImg(j, img.width - 1 - i, 0) = img(i, j, 0);
-                   
-                    
-                    tImg(j, img.width - 1 - i, 1) = img(i, j, 1);
-                    
-                    
-                    tImg(j, img.width - 1 - i, 2) = img(i, j, 2);
-                }
-            }
-            img = tImg;
-        }
-    }
-
-
-//ده عمتلتوا عكس ال 90
-
-// ده تانى فلتر الى هى السادس فى البى دى اف الى قال عليه الدكتور
-
-
-
-
 
     void flipImage(Image& img) {
         int choice;
@@ -261,10 +137,127 @@ void rotateImage(Image& img) {
 
 
 
+void black_white(Image& img) {
+
+	for (int i = 0; i < img.width; ++i) {
+
+		for (int j = 0; j < img.height; ++j) {
+
+			int avg = (img(i,j,0)+img(i,j,1)+img(i,j,2))/3;
+
+				if (avg>128) 
+				{
+					img(i,j,0)=255;
+					img(i,j,1)=255;
+					img(i,j,2)=255;
+				}
+				else
+				{
+					img(i,j,0)=0;
+					img(i,j,1)=0;
+					img(i,j,2)=0;
+				}	
+		}
+	}
+}
+
+// هنا بيقرا كل بيكسل و يحسب المتوسط بتاعه لو المتوسط ده اكبر من 128 يبقى البيكسل ده هيبقى ابيض و لو اقل يبقى اسود
+
+
+
+void rotateImage(Image& img) {
+
+    int method;
+
+    cout << "1. flip 90 degrees\n";
+    cout << "2. flip 180 degrees\n";
+    cout << "3. flip 270 degrees\n";
+    cout << "Choose: ";
+    cin >> method;
 
 
 
 
+
+
+    if (method == 1) {
+      Image tImg(img.height, img.width);
+      
+      for (int i = 0; i < img.width; ++i) {
+        
+        for (int j = 0; j < img.height; ++j) {
+
+                tImg(img.height - 1 - j, i, 0) = img(i, j, 0);
+                tImg(img.height - 1 - j, i, 1) = img(i, j, 1);
+                tImg(img.height - 1 - j, i, 2) = img(i, j, 2);
+            }
+        }
+        img = tImg;
+    }
+
+
+    // الاول عملت صوره موقته بس عشان انقل فيها الصفوف و الاعمده بالترتيب الجديد الى هعملوا
+
+    // انا هنا عايزها تتقلب 90درجه فكل الى هعملوا انى هخلى الاعمده تبقى صفوف و الصفوف اعمده و ده ان
+
+
+
+
+
+
+
+
+
+
+    else if (method == 2) {
+        Image tImg(img.width, img.height);
+
+        for (int i = 0; i < img.width; ++i) {
+
+            for (int j = 0; j < img.height; ++j) {
+
+
+                tImg(img.width - 1 - i, img.height - 1 - j, 0) = img(i, j, 0);
+                tImg(img.width - 1 - i, img.height - 1 - j, 1) = img(i, j, 1);
+                tImg(img.width - 1 - i, img.height - 1 - j, 2) = img(i, j, 2);
+            }
+        }
+        img = tImg;
+    }
+
+
+
+
+    // الجزه ده عشان اقلب الصوره اللى فوق تحت و الى تحت فوق
+    //هنا اخر بيكسل فى الصف او العمود بيخليه الاول مثلا لو عدد البيكسل فى العمود 200 هعلخى اول بيكسل الى هو ب صفر يبقى ب199والعمليه دى هكررها على كل بيكسل
+
+
+
+
+
+
+
+    else if (method == 3) {
+      Image tImg(img.height, img.width);
+       
+      for (int i = 0; i < img.width; ++i) {
+        
+        for (int j = 0; j < img.height; ++j) {
+
+
+                tImg(j, img.width - 1 - i, 0) = img(i, j, 0);
+                tImg(j, img.width - 1 - i, 1) = img(i, j, 1);
+                tImg(j, img.width - 1 - i, 2) = img(i, j, 2);
+            }
+        }
+        img = tImg;
+    }
+}
+
+
+//ده عمتلتوا عكس ال 90
+
+// ده تانى فلتر الى هى السادس فى البى دى اف الى قال عليه الدكتور
 
 
 
@@ -301,8 +294,9 @@ int main() {
     cout << " Image filter Menu " << endl;
     cout << "1. Grayscale Filter" << endl;
     cout << "2. flip" << endl;
-    cout << "3.rotate filter" << endl;
-    cout << "4. Exit" << endl;
+    cout << "3. black_white" << endl;
+    cout << "4. rotateImage" << endl;
+    cout << "5. Exit" << endl;
     cout << "Choose a filter: ";
 
 
@@ -333,18 +327,26 @@ int main() {
         break;
     
     case 3:
-        rotateImage(img);
+        black_white(img);
         
-        cout << "retate done" << endl;
+        cout << "color done" << endl;
         break;
 
 
 
     case 4:
+      rotateImage(img);
+      
+        cout << "retate done" << endl;
+        break;
+      
+
+      
+    case 5:
         cout << "Exiting program." << endl;
         return 0;
-    
-    
+
+      
     
     default:
         cout << "Invalid choice." << endl;
