@@ -7,7 +7,7 @@ using namespace std;
 
 //دى اول استيب فى البرةوجيكت انى جهزت المكاتب و ظبطت المكاتب الى عاملها دكتور الرملى و عشان هى مكاتب محليه بتتعمل ب""
 
-
+//---------------------------------------------------------------------------------------------------------------------------
 
 void Grayscale(Image& img) {
 
@@ -35,7 +35,7 @@ void Grayscale(Image& img) {
 // بعدها خدت الافريدج و ساويته بالتلت الوان
 //لوب دى خطوه ثابته هعملها فى كل فلترfor ال 
 
-
+//----------------------------------------------------------------------------------------------------------------------
 
 
 void flipImage(Image& img) {
@@ -135,7 +135,7 @@ void flipImage(Image& img) {
     }
 }
 
-
+//-----------------------------------------------------------------------------------------------------------------------
 
 void black_white(Image& img) {
 
@@ -161,9 +161,15 @@ void black_white(Image& img) {
     }
 }
 
+
+
+
+
+
+
 // هنا بيقرا كل بيكسل و يحسب المتوسط بتاعه لو المتوسط ده اكبر من 128 يبقى البيكسل ده هيبقى ابيض و لو اقل يبقى اسود
 
-
+//------------------------------------------------------------------------------------------------------------------
 
 void rotateImage(Image& img) {
 
@@ -260,16 +266,8 @@ void rotateImage(Image& img) {
 // ده تانى فلتر الى هى السادس فى البى دى اف الى قال عليه الدكتور
 
 
-/*
 
-ده كود الفلاتر المطلوبة: 3 و 7 و 11 و 15 و 18
-
-======================================
-Name: Felopateer Ashraf   ID:20251288
-======================================
-
-*/
-
+//---------------------------------------------------------------------------------------------------------------------
 
 // بدايه كود فلتر 3 
 
@@ -299,7 +297,7 @@ void invertImage(Image& img) {
 // نهايه كود فلتر 3
 
 
-
+//--------------------------------------------------------------------------------------------------
 
 
 // بدايه كود فلتر 7 
@@ -389,7 +387,7 @@ void darken_lighten(Image& img) {
 
 
 
-
+//_-----------------------------------------------------------------------------------------------
 
 // بدايه كود فلتر 11
 
@@ -429,10 +427,157 @@ void cropImage(Image& img) {
 
 // نهايه كود فلتر 11
 
+//------------------------------------------------------------------------------------------------
+void merge_image(Image& img) {
+
+    string imagefile2;
+    cout << "enter the name" << endl;
+    cin >> imagefile2;
+    Image img2(imagefile2);
+    // الفلتر ده الغرض منه ادمج صورتين ببعض  فاول خطوه احتاجت انى اخلى اليوزر يبدا يدخل الصوره التانيه من جوا الفانكشن نفسها عشان ميحصلش لخبطه فى باقى البرنامج
+
+
+
+    if (img.width == img2.width && img.height == img2.height) {
+        for (int i = 0; i < img.width; ++i) {
+            for (int j = 0; j < img.height; ++j) {
+                for (int c = 0; c < 3; ++c) {
+                    img(i, j, c) = (img(i, j, c) + img2(i, j, c)) / 2;
+                }
+            }
+        }
+        // لو الشرط اتحقق و الصورتين قد بعض بالظبط يبقى هبدا اللف على البيكسل بالنيستد لوب و اخد الالوان بتاعت البسكسل فى الصورتين و اقسهمه على 2 
+
+    }
+    else {
+
+        int your_choice;
+        cout << "1. Resize to max" << endl;
+        cout << "2. common area " << endl;
+        cout << "Enter your choice (1 or 2): ";
+        cin >> your_choice;
+        if (your_choice == 1) {
+
+            int maxwidth = max(img.width, img2.width);
+            int maxheight = max(img.height, img2.height);
 
 
 
 
+            Image newmax(maxwidth, maxheight);
+
+
+
+
+
+            for (int i = 0; i < maxwidth; ++i) {
+
+                for (int j = 0; j < maxheight; ++j) {
+                    int x1 = i * img.width / maxwidth;
+                    int y1 = j * img.height / maxheight;
+
+                    int x2 = i * img2.width / maxwidth;
+                    int y2 = j * img2.height / maxheight;
+
+                    // هنا بعمل جزء من الفلتر الى عامله كيرلس انى بجيب ال مكان البيكسل الى عايزه من الصوره الاصليه عن طريق المعادله انى بضرب مكان البيكسل الجديد فى مكان البيكسل القديم و بقسم على الطول او العرض الاكبر
+
+                    for (int c = 0; c < 3; ++c) {
+                        newmax(i, j, c) = (img(x1, y1, c) + img2(x2, y2, c)) / 2;
+                    }
+                }
+            }
+
+
+            img = newmax;
+
+
+        }
+        else if (your_choice == 2) {
+
+            int themin_width = min(img.width, img2.width);
+            int themin_height = min(img.height, img2.height);
+            // لو اختار ان نشتغل على االجزء المشترك بس بنشوف اصغر طول و اصغر عرض بنلف غليهم بالفورلوب عشان اللوب متضربش
+
+            Image newmin(themin_width, themin_height);
+
+
+
+            for (int i = 0; i < themin_width; ++i) {
+
+                for (int j = 0; j < themin_height; ++j) {
+
+
+                    for (int c = 0; c < 3; ++c) {
+
+
+                        newmin(i, j, c) = (img(i, j, c) + img2(i, j, c)) / 2;
+                    }
+                }
+
+                // بعد ما سويبنا الصورتين بالابعاد الاصغر نبدا ندمجهم 
+
+
+
+                img = newmin;
+
+
+            }
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+// بيشوى
+// فلتر 9
+//_____________________________________________________________________________________________
+void natural_sunlight(Image& img) {
+    for (int i = 0; i < img.width; ++i) {
+        for (int j = 0; j < img.height; ++j) {
+
+
+            int red = img(i, j, 0);
+            int green = img(i, j, 1);
+            int blue = img(i, j, 2);
+
+
+            red += 40;
+            green += 20;
+            blue -= 30;
+            //عشان اعرف هنقص او ازود قد اى من كل لون aiانا خدت مساعده من ال 
+
+            img(i, j, 0) = clamp(red, 0, 255);
+            img(i, j, 1) = clamp(green, 0, 255);
+            img(i, j, 2) = clamp(blue, 0, 255);
+        }
+        // clamp هنا استعملتها عشان احدد القيم بين 0 و255
+
+    }
+
+}
+
+
+// الفلتر ده هنزود اللون الاحمر و الاخضر فى البيكسل عشان نقرب للون الاصفر للشمس و قللنا الازرق عشان نزود الدفء فى الصوره
+
+
+
+//بيشوى
+
+
+//----------------------------------------------------------------------------------------
 // بدايه كود فلتر 15
 
 void purpleFilter(Image& img) {
@@ -458,7 +603,7 @@ void purpleFilter(Image& img) {
 // نهايه كود فلتر 15
 
 
-
+//-------------------------------------------------------------------------------------------------------------------------
 
 
 // بدايه كود فلتر 18
@@ -516,7 +661,7 @@ void oilPainting(Image& img) {
 // نهايه كود فلتر 18
 
 
-
+//-------------------------------------------------------------------------------------------------------------------
 
 
 int main() {
@@ -552,9 +697,11 @@ int main() {
     cout << "4. rotateImage" << endl;
     cout << "5. Invert Image" << endl;
     cout << "7. Darken / Lighten Image" << endl;
-    cout << "11. Crop Image" << endl;
-    cout << "15. Purple Filter" << endl;
-    cout << "18. Oil Painting" << endl;
+    cout << "8. merge_image" << endl;
+    cout << "9. flip" << endl;
+    cout << "10. Crop Image" << endl;
+    cout << "11. Purple Filter" << endl;
+    cout << "12. Oil Painting" << endl;
     cout << "0. Exit" << endl;
     cout << "Choose a filter: ";
 
@@ -607,17 +754,32 @@ int main() {
         cout << "darken/lighten done. " << endl;
         break;
 
-    case 11:
+
+    case 8:
+        merge_image(img);
+        cout << "merge_image done. " << endl;
+        break;
+
+
+
+    case 9:
+        natural_sunlight(img);
+        cout << "natural_sunlight done. " << endl;
+        break;
+
+
+
+    case 10:
         cropImage(img);
         cout << "Crop done." << endl;
         break;
 
-    case 15:
+    case 11:
         purpleFilter(img);
         cout << "Purple Filter done." << endl;
         break;
 
-    case 18:
+    case 12:
         oilPainting(img);
         cout << "Oil Painting done." << endl;
         break;
