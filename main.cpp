@@ -288,7 +288,7 @@ void Image_Edges(Image& img) {
 // بدايه كود فلتر 14
  
 
-void fod(Image& img) {
+void old_television_effect(Image& img) {
 
     for (int i = 0; i < img.width; ++i) {
 
@@ -733,13 +733,15 @@ int main() {
     cout << "2. flip" << endl;
     cout << "3. black_white" << endl;
     cout << "4. rotateImage" << endl;
-    cout << "5. Invert Image" << endl;
-    cout << "7. Darken / Lighten Image" << endl;
-    cout << "8. merge_image" << endl;
-    cout << "9. flip" << endl;
-    cout << "10. Crop Image" << endl;
-    cout << "11. Purple Filter" << endl;
-    cout << "12. Oil Painting" << endl;
+    cout << "5. Image_Edges" << endl;
+    cout << "6. old_television_effect" << endl;
+    cout << "7. Invert Image" << endl;
+    cout << "8. Darken / Lighten Image" << endl;
+    cout << "9. merge_image" << endl;
+    cout << "10. flip" << endl;
+    cout << "11. Crop Image" << endl;
+    cout << "12. Purple Filter" << endl;
+    cout << "13. Oil Painting" << endl;
     cout << "0. Exit" << endl;
     cout << "Choose a filter: ";
 
@@ -772,52 +774,55 @@ int main() {
 
     case 3:
         black_white(img);
-
         cout << "color done" << endl;
         break;
 
     case 4:
         rotateImage(img);
-
         cout << "retate done" << endl;
         break;
 
     case 5:
-        invertImage(img);
-        cout << "invert done. " << endl;
+        Image_Edges(img);
+        cout << "Image Edges done. " << endl;
         break;
 
+    case 6:
+        old_television_effect(img);
+        cout << "effect done. " << endl;
+        break;
+        
     case 7:
+        invertImage(img);
+        cout << "invert done. " << endl;
+        break;  
+        
+    case 8:
         darken_lighten(img);
         cout << "darken/lighten done. " << endl;
         break;
 
-
-    case 8:
+    case 9:
         merge_image(img);
         cout << "merge_image done. " << endl;
         break;
-
-
-
-    case 9:
+        
+    case 10:
         natural_sunlight(img);
         cout << "natural_sunlight done. " << endl;
         break;
 
-
-
-    case 10:
+    case 11:
         cropImage(img);
         cout << "Crop done." << endl;
         break;
 
-    case 11:
+    case 12:
         purpleFilter(img);
         cout << "Purple Filter done." << endl;
         break;
 
-    case 12:
+    case 13:
         oilPainting(img);
         cout << "Oil Painting done." << endl;
         break;
