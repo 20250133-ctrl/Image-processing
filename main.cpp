@@ -1,13 +1,49 @@
+/*
+===================================================================================
+FCAI – CS213 Object Oriented Programming – 2026 – Assignment 1 – Part 2
+Program Name: Image Processing Console Application
+Program Description: C++ Console Application for applying 16 image filters.
+
+a) Team Details and IDs:
+   1. Bishoy Kamel Edwar Hanna  | ID: 20250133 | Section: S21, S22
+   2. Fady Mokbel Zaghloul      | ID: 20250460 | Section: S3, S4
+   3. Kerolos Medhat Haleem     | ID: 20251301 | Section: S3, S4
+   4. Felopater Ashraf Waseem   | ID: 20251288 | Section: S3, S4
+
+b) Work Breakdown:
+   - Menu System, File Loading/Saving & Overall Integration: Beshoy Kamel
+   - Beshoy Kamel   : Filter 1 (Grayscale), Filter 5 (Flip), Filter 9 (Merge), Filter 13 (Sunlight)
+   - Fady Mokbel    : Filter 6 (Rotate), Filter 2 (Black & White), Filter 10 (Image_Edges), Filter 15 (old_television_effect).
+   - Kerolos Medhat : Filter 4 (Frame), Filter 8 (Resize), Filter 16 (Infrared), Filter 12 (Blur).
+   - Felopater Ashraf: Filter 3 (Invert), Filter 7 (Darken/Lighten), Filter 11 (Crop), Filter 15 (Purple).
+   - Filter 17 (oilPainting),Filter 18 (skewimage): ALL TEAM
+
+
+
+c) Link to the Video Demo:
+                          [حط هنا لينك فيديو الشرح اللي هتصوره على Drive أو YouTube]
+
+
+d) Link to the Shared Document:
+                               [حط هنا لينك المستند المشترك Google Doc]
+===================================================================================
+*/
+
+
+
+
+//=====================================================================================================================================================
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
 #include <algorithm>
 #include "Image_Class.h"
 using namespace std;
+// اول خطوه شغلنا المكاتب الى هنستخدمها و مكاتب دكتور الرملى و عشان هى بتتصنف كمكاتب محليه عملتهاب ""
+//==================================================================================================================================================
 
-//دى اول استيب فى البرةوجيكت انى جهزت المكاتب و ظبطت المكاتب الى عاملها دكتور الرملى و عشان هى مكاتب محليه بتتعمل ب""
-
-//---------------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------
 
 void Grayscale(Image& img) {
 
@@ -35,8 +71,11 @@ void Grayscale(Image& img) {
 // بعدها خدت الافريدج و ساويته بالتلت الوان
 //لوب دى خطوه ثابته هعملها فى كل فلترfor ال 
 
-//----------------------------------------------------------------------------------------------------------------------
 
+// فلتر 1
+// بيشوى
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
 
 void flipImage(Image& img) {
     int choice;
@@ -45,7 +84,7 @@ void flipImage(Image& img) {
     cout << "Enter your choise: " << endl;
     cin >> choice;
 
-
+    // هبداء اول خطوه اشوف اليوزر عايز انهى فلتر
 
 
 
@@ -134,8 +173,137 @@ void flipImage(Image& img) {
         cout << "num doesn't exist" << endl;
     }
 }
+// فكره الكود هتعامل معاه اكنه مرايه هحط زى خط فى النص و البيكسل بغير مكانها بالبيكسل الى قمها الناحيه التانيه
 
-//-----------------------------------------------------------------------------------------------------------------------
+// فلتر 5
+// بيشوى
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+void rotateImage(Image& img) {
+
+    int method;
+
+
+
+    cout << "1. flip 90 degrees\n";
+    cout << "2. flip 180 degrees\n";
+    cout << "3. flip 270 degrees\n";
+    cout << "Choose: ";
+
+
+    cin >> method;
+
+
+
+
+
+
+
+
+    if (method == 1) {
+
+
+        Image tImg(img.height, img.width);
+
+
+        for (int i = 0; i < img.width; ++i) {
+
+
+            for (int j = 0; j < img.height; ++j) {
+
+
+                tImg(img.height - 1 - j, i, 0) = img(i, j, 0);
+
+                tImg(img.height - 1 - j, i, 1) = img(i, j, 1);
+
+                tImg(img.height - 1 - j, i, 2) = img(i, j, 2);
+            }
+        }
+        img = tImg;
+    }
+
+
+    // الاول عملت صوره موقته بس عشان انقل فيها الصفوف و الاعمده بالترتيب الجديد الى هعملوا
+
+    // انا هنا عايزها تتقلب 90درجه فكل الى هعملوا انى هخلى الاعمده تبقى صفوف و الصفوف اعمده و ده ان
+
+
+
+
+
+
+
+
+
+
+    else if (method == 2) {
+        Image tImg(img.width, img.height);
+
+
+
+
+
+        for (int i = 0; i < img.width; ++i) {
+
+
+
+
+
+            for (int j = 0; j < img.height; ++j) {
+
+
+                tImg(img.width - 1 - i, img.height - 1 - j, 0) = img(i, j, 0);
+
+
+                tImg(img.width - 1 - i, img.height - 1 - j, 1) = img(i, j, 1);
+
+
+                tImg(img.width - 1 - i, img.height - 1 - j, 2) = img(i, j, 2);
+            }
+        }
+        img = tImg;
+    }
+
+
+
+
+    // الجزه ده عشان اقلب الصوره اللى فوق تحت و الى تحت فوق
+    //هنا اخر بيكسل فى الصف او العمود بيخليه الاول مثلا لو عدد البيكسل فى العمود 200 هعلخى اول بيكسل الى هو ب صفر يبقى ب199والعمليه دى هكررها على كل بيكسل
+
+
+
+
+
+
+
+    else if (method == 3) {
+        Image tImg(img.height, img.width);
+        for (int i = 0; i < img.width; ++i) {
+            for (int j = 0; j < img.height; ++j) {
+
+
+                tImg(j, img.width - 1 - i, 0) = img(i, j, 0);
+
+
+                tImg(j, img.width - 1 - i, 1) = img(i, j, 1);
+
+
+                tImg(j, img.width - 1 - i, 2) = img(i, j, 2);
+            }
+        }
+        img = tImg;
+    }
+}
+
+
+//ده عمتلتوا عكس ال 90
+
+// ده تانى فلتر الى هى السادس فى البى دى اف الى قال عليه الدكتور
+
+//FADY
+//-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 void black_white(Image& img) {
 
@@ -161,155 +329,275 @@ void black_white(Image& img) {
     }
 }
 
-
-
-
-
-
-
 // هنا بيقرا كل بيكسل و يحسب المتوسط بتاعه لو المتوسط ده اكبر من 128 يبقى البيكسل ده هيبقى ابيض و لو اقل يبقى اسود
 
-//------------------------------------------------------------------------------------------------------------------
 
-void rotateImage(Image& img) {
+// FADY
 
-    int method;
-
-    cout << "1. flip 90 degrees\n";
-    cout << "2. flip 180 degrees\n";
-    cout << "3. flip 270 degrees\n";
-    cout << "Choose: ";
-    cin >> method;
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+void frameImage(Image& img) {
 
 
-    if (method == 1) {
-        Image tImg(img.height, img.width);
+    int choice;
+
+
+    cout << "1. simple frame\n";
+
+
+    cout << "2. fancy frame\n";
+
+
+    cout << "choose frame type: ";
+
+
+    cin >> choice;
+
+
+
+
+    int r = 0, g = 0, b = 0;
+
+
+    int color;
+
+
+    cout << "1. red\n";
+
+
+    cout << "2. green\n";
+
+
+    cout << "3. blue\n";
+
+
+    cout << "4. white\n";
+
+
+    cout << "5. black\n";
+
+
+    cout << "choose color: ";
+
+
+    cin >> color;
+
+
+
+
+    if (color == 1) { r = 255; g = 0; b = 0; }
+
+
+    else if (color == 2) { r = 0; g = 255; b = 0; }
+
+
+    else if (color == 3) { r = 0; g = 0; b = 255; }
+
+
+    else if (color == 4) { r = 255; g = 255; b = 255; }
+
+
+    else if (color == 5) { r = 0; g = 0; b = 0; }
+
+
+
+
+    int frame_size = img.width / 20;
+
+
+
+
+    if (choice == 1) {
+
 
         for (int i = 0; i < img.width; ++i) {
 
+
             for (int j = 0; j < img.height; ++j) {
 
-                tImg(img.height - 1 - j, i, 0) = img(i, j, 0);
-                tImg(img.height - 1 - j, i, 1) = img(i, j, 1);
-                tImg(img.height - 1 - j, i, 2) = img(i, j, 2);
+
+
+
+                if (i < frame_size || i >= img.width - frame_size || j < frame_size || j >= img.height - frame_size) {
+
+
+
+
+                    img(i, j, 0) = r;
+
+
+                    img(i, j, 1) = g;
+
+
+                    img(i, j, 2) = b;
+
+
+                }
+
+
             }
+
+
         }
-        img = tImg;
+
+
     }
-    // الاول عملت صوره موقته بس عشان انقل فيها الصفوف و الاعمده بالترتيب الجديد الى هعملوا
-    // انا هنا عايزها تتقلب 90درجه فكل الى هعملوا انى هخلى الاعمده تبقى صفوف و الصفوف اعمده و ده ان
+
+
+    // هنا الفلتر بتاع الاطار البسيط بنحدد سمك الاطار وبنلف باللوب على الحواف ونغير لون البيكسل للون الي اليوزر اختاره
 
 
 
 
-    else if (method == 2) {
-        Image tImg(img.width, img.height);
+    else if (choice == 2) {
+
 
         for (int i = 0; i < img.width; ++i) {
 
-            for (int j = 0; j < img.height; ++j) {
-
-
-                tImg(img.width - 1 - i, img.height - 1 - j, 0) = img(i, j, 0);
-                tImg(img.width - 1 - i, img.height - 1 - j, 1) = img(i, j, 1);
-                tImg(img.width - 1 - i, img.height - 1 - j, 2) = img(i, j, 2);
-            }
-        }
-        img = tImg;
-    }
-    // الجزه ده عشان اقلب الصوره اللى فوق تحت و الى تحت فوق
-    //هنا اخر بيكسل فى الصف او العمود بيخليه الاول مثلا لو عدد البيكسل فى العمود 200 هعلخى اول بيكسل الى هو ب صفر يبقى ب199والعمليه دى هكررها على كل بيكسل
-
-
-
-
-    else if (method == 3) {
-        Image tImg(img.height, img.width);
-
-        for (int i = 0; i < img.width; ++i) {
 
             for (int j = 0; j < img.height; ++j) {
 
 
-                tImg(j, img.width - 1 - i, 0) = img(i, j, 0);
-                tImg(j, img.width - 1 - i, 1) = img(i, j, 1);
-                tImg(j, img.width - 1 - i, 2) = img(i, j, 2);
+
+
+                if (i < frame_size || i >= img.width - frame_size || j < frame_size || j >= img.height - frame_size) {
+
+
+
+
+                    if ((i / 12 + j / 12) % 2 == 0) {
+
+
+
+
+                        img(i, j, 0) = 255;
+
+
+                        img(i, j, 1) = 255;
+
+
+                        img(i, j, 2) = 255;
+
+
+                    }
+
+
+                    else {
+
+
+
+
+                        img(i, j, 0) = r;
+
+
+                        img(i, j, 1) = g;
+
+
+                        img(i, j, 2) = b;
+
+
+                    }
+
+
+                }
+
+
             }
+
+
         }
-        img = tImg;
+
+
     }
+
+
+    // هنا الاطار المزخرف عملت فكرة شطرنجية زغرفية بسيطة بتقسيم البيكسلات لنقط بيضا ونقط بلون الاطار عشان يبان شكل زخرفة واضح جداً ومختلف عن البسيط
+
+
+
+
 }
-//ده عمتلتوا عكس ال 90
+
+// kerolos
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
 
 
-//--------------------------------------------------------------------------------------------
-
-// بدايه كود فلتر 10
+void resizeImage(Image& img) {
 
 
+    int new_w, new_h;
 
-void Image_Edges(Image& img) {
 
-    for (int i = 0; i < img.width; ++i) {
+    cout << "enter new width: ";
 
-        for (int j = 0; j < img.height; ++j) {
-            int r = img(i, j, 0);
-            int g = img(i, j, 1);
-            int b = img(i, j, 2);
 
-            int r2 = img(i + 1, j, 0);
-            int g2 = img(i + 1, j, 1);
-            int b2 = img(i + 1, j, 2);
+    cin >> new_w;
 
-            int diff = abs(r - r2) + abs(g - g2) + abs(b - b2);
 
-            if (diff > 50) {
-                img(i, j, 0) = 0;
-                img(i, j, 1) = 0;
-                img(i, j, 2) = 0;
-            }
-            else {
-                img(i, j, 0) = 255;
-                img(i, j, 1) = 255;
-                img(i, j, 2) = 255;
-            }
+
+
+    cout << "enter new height: ";
+
+
+    cin >> new_h;
+
+
+
+
+    Image tImg(new_w, new_h);
+
+
+
+
+    for (int i = 0; i < new_w; ++i) {
+
+
+        for (int j = 0; j < new_h; ++j) {
+
+
+
+
+            int old_i = (i * img.width) / new_w;
+
+
+            int old_j = (j * img.height) / new_h;
+
+
+
+
+            tImg(i, j, 0) = img(old_i, old_j, 0);
+
+
+            tImg(i, j, 1) = img(old_i, old_j, 1);
+
+
+            tImg(i, j, 2) = img(old_i, old_j, 2);
+
+
         }
+
+
     }
+
+
+
+
+    img = tImg;
+
+
 }
-//عشان اجيب الحواف كان لازم افرق بين الالوان بين كل بكسل و اللي بعده
-// عشان لو في تغير كبير في اللون هنعرف ان دي حافه
 
 
-
-//--------------------------------------------------------------------------------------------
-
-// بدايه كود فلتر 14
- 
-
-void old_television_effect(Image& img) {
-
-    for (int i = 0; i < img.width; ++i) {
-
-        for (int j = 0; j < img.height; ++j) {
-            if (j % 2 == 0) {
-                img(i, j, 0)=img(i, j, 0) * .5 ;
-                img(i, j, 1)=img(i, j, 1) * .5 ;
-                img(i, j, 2)=img(i, j, 2) * .5 ;
-            }
-        }
-    }
-}
-    
-// جيبت كل بيكسل بيقبل القسمة على اتنين و غمقت لونه بضرب كل لون في البكسل في نص 
+// هنا بناخد العرض والطول الجديد من اليوزر وبنعمل صورة جديدة موقتة ونعمل لوب على العرض والطول الجديد
 
 
-//---------------------------------------------------------------------------------------------------------------------
+// وبنسبة وتناسب بنجيب مكان البيكسل القديم وننسخ الالوان التلاتة الاحمر والاخضر والازرق
 
-// بدايه كود فلتر 3 
+// kerolos
 
-
+//---------------------------------------------------------------------------------------------------------------------------------------------------------
 void invertImage(Image& img) {
 
 
@@ -334,11 +622,8 @@ void invertImage(Image& img) {
 // بنلف على كل بيكسل و نطرح قيمة كل لون من ال 255 عشان الفاتح يبقى غامق و العكس
 // نهايه كود فلتر 3
 
-
-//--------------------------------------------------------------------------------------------------
-
-
-// بدايه كود فلتر 7 
+// Felopater
+//-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 void darken_lighten(Image& img) {
     int choice;
@@ -421,51 +706,11 @@ void darken_lighten(Image& img) {
     }
 }
 
+
 // نهايه كود فلتر 7
 
-
-
-//_-----------------------------------------------------------------------------------------------
-
-// بدايه كود فلتر 11
-
-void cropImage(Image& img) {
-    int x, y, W, H;
-
-    cout << "Enter starting point x: ";
-    cin >> x;
-    cout << "Enter starting point y: ";
-    cin >> y;
-
-    cout << "Enter width (W): ";
-    cin >> W;
-    cout << "Enter height (H): ";
-    cin >> H;
-
-
-    int corrected_y = img.height - y - H;
-
-    if (x < 0 || corrected_y < 0 || x + W > img.width || corrected_y + H > img.height) {
-        cout << "Invalid dimensions! Out of bounds." << endl;
-        return;
-    }
-
-    Image croppedImg(W, H);
-
-    for (int i = 0; i < W; ++i) {
-        for (int j = 0; j < H; ++j) {
-            for (int c = 0; c < 3; ++c) {
-                croppedImg(i, j, c) = img(x + i, corrected_y + j, c);
-            }
-        }
-    }
-
-    img = croppedImg;
-}
-
-// نهايه كود فلتر 11
-
-//------------------------------------------------------------------------------------------------
+// Felopater
+//----------------------------------------------------------------------------------------------------------------------------------------------------------
 void merge_image(Image& img) {
 
     string imagefile2;
@@ -581,7 +826,11 @@ void merge_image(Image& img) {
 
 // بيشوى
 // فلتر 9
-//_____________________________________________________________________________________________
+
+
+
+
+//-------------------------------------------------------------------------------------------------------------------
 void natural_sunlight(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
@@ -611,13 +860,182 @@ void natural_sunlight(Image& img) {
 // الفلتر ده هنزود اللون الاحمر و الاخضر فى البيكسل عشان نقرب للون الاصفر للشمس و قللنا الازرق عشان نزود الدفء فى الصوره
 
 
+// بيشوى 
+//فلتر 13
 
-//بيشوى
+//--------------------------------------------------------------------------------------------------------------------
+
+// فلتر التغبيش بلور
+void blurimage(Image& img) {
+
+    // رقم البلور من اليوزر
+    int r;
+    cout << "enter blur radius: ";
+    cin >> r;
+
+    // لو اليوزر دخل رقم بالسالب اطلبه تاني عشان الميموري
+    while (r < 0) {
+        cout << "invalid radius, enter positive number: ";
+        cin >> r;
+    }
+
+    int w = img.width;
+    int h = img.height;
+
+    // مصفوفة البريفكس سم التراكمية
+    long long** arr = new long long* [w + 1];
+    for (int i = 0; i <= w; ++i) {
+        arr[i] = new long long[h + 1]();
+    }
+
+    // بنعدي على الالوان التلاتة
+    for (int c = 0; c < 3; ++c) {
+
+        // بنجمع قيم البيكسلات التراكمية
+        for (int i = 1; i <= w; ++i) {
+            for (int j = 1; j <= h; ++j) {
+                arr[i][j] = (long long)img(i - 1, j - 1, c) + arr[i - 1][j] + arr[i][j - 1] - arr[i - 1][j - 1];
+            }
+        }
+
+        // بنحسب المتوسط لكل بيكسل
+        for (int j = 0; j < h; ++j) {
+            for (int i = 0; i < w; ++i) {
+
+                int x1 = max(0, i - r);
+                int y1 = max(0, j - r);
+                int x2 = min(w - 1, i + r);
+                int y2 = min(h - 1, j + r);
+
+                int a = (x2 - x1 + 1) * (y2 - y1 + 1);
+
+                long long s = arr[x2 + 1][y2 + 1] - arr[x1][y2 + 1] - arr[x2 + 1][y1] + arr[x1][y1];
+
+                img(i, j, c) = s / a;
+            }
+        }
+    }
+
+    // بنمسح الميموري اللي حجزناها
+    for (int i = 0; i <= w; ++i) {
+        delete[] arr[i];
+    }
+    delete[] arr;
+
+    cout << "blur filter applied successfully" << endl;
+}
 
 
+//kerolos
+//-----------------------------------------------------------------------------------------------------------------------
+
+// فلتر الانفراريد
+void infraredfilter(Image& img) {
+
+    // بنلف على كل نقطة في الصورة
+    for (int x = 0; x < img.width; ++x) {
+        for (int y = 0; y < img.height; ++y) {
+
+            // اللون الاحمر بنثبته ع الآخر
+            img(x, y, 0) = 255;
+
+            // وبنعكس اللونين التانيين
+            img(x, y, 1) = 255 - img(x, y, 1);
+            img(x, y, 2) = 255 - img(x, y, 2);
+        }
+    }
+
+    cout << "infrared filter applied successfully" << endl;
+}
+
+//kerolos
+//-----------------------------------------------------------------------------------------------------------------------------
+// فلتر ميل الصورة
+void skewimage(Image& img) {
+
+    // الدرجة بتاعة الزاوية من اليوزر
+    double deg;
+    cout << "enter skew angle in degrees: ";
+    cin >> deg;
+
+    // تحويل للراديان عشان دالة التان
+    double rd = deg * 3.14159 / 180.0;
+
+    int w = img.width;
+    int h = img.height;
+
+    // الزيادة في العرض
+    int sh = h * tan(rd);
+
+    int nw = w + sh;
+
+    // صورة جديدة مؤقتة
+    Image temp(nw, h);
+
+    // بنخلي خلفية الصورة بيضا
+    for (int x = 0; x < nw; ++x) {
+        for (int y = 0; y < h; ++y) {
+            temp(x, y, 0) = 255;
+            temp(x, y, 1) = 255;
+            temp(x, y, 2) = 255;
+        }
+    }
+
+    // تشفيت الصفوف
+    for (int y = 0; y < h; ++y) {
+
+        int off = (h - 1 - y) * tan(rd);
+
+        for (int x = 0; x < w; ++x) {
+            temp(x + off, y, 0) = img(x, y, 0);
+            temp(x + off, y, 1) = img(x, y, 1);
+            temp(x + off, y, 2) = img(x, y, 2);
+        }
+    }
+
+    img = temp;
+
+    cout << "skew filter applied successfully" << endl;
+}
+//kerolos
+//-----------------------------------------------------------------------------------------------------------------------------
+void cropImage(Image& img) {
+    int x, y, W, H;
+
+    cout << "Enter starting point x: ";
+    cin >> x;
+    cout << "Enter starting point y: ";
+    cin >> y;
+
+    cout << "Enter width (W): ";
+    cin >> W;
+    cout << "Enter height (H): ";
+    cin >> H;
+
+
+    int corrected_y = img.height - y - H;
+
+    if (x < 0 || corrected_y < 0 || x + W > img.width || corrected_y + H > img.height) {
+        cout << "Invalid dimensions! Out of bounds." << endl;
+        return;
+    }
+
+    Image croppedImg(W, H);
+
+    for (int i = 0; i < W; ++i) {
+        for (int j = 0; j < H; ++j) {
+            for (int c = 0; c < 3; ++c) {
+                croppedImg(i, j, c) = img(x + i, corrected_y + j, c);
+            }
+        }
+    }
+
+    img = croppedImg;
+}
+
+// نهايه كود فلتر 11
+//فيلوباتير
 //----------------------------------------------------------------------------------------
-// بدايه كود فلتر 15
-
 void purpleFilter(Image& img) {
     for (int i = 0; i < img.width; ++i) {
         for (int j = 0; j < img.height; ++j) {
@@ -637,14 +1055,8 @@ void purpleFilter(Image& img) {
         }
     }
 }
-
-// نهايه كود فلتر 15
-
-
-//-------------------------------------------------------------------------------------------------------------------------
-
-
-// بدايه كود فلتر 18
+//فيلوباتير
+// ---------------------------------------------------------------------------------------
 
 void oilPainting(Image& img) {
     int radius = 3;
@@ -697,11 +1109,58 @@ void oilPainting(Image& img) {
 }
 // فلتر رقم 18 الخاص بتأثير الرسم بالزيت Oil Painting عبر حساب متوسط الألوان الأكثر تكراراً في البيكسلات المجاورة
 // نهايه كود فلتر 18
+// ---------------------------------------------------------------------------------------
+void old_television_effect(Image& img) {
+
+    for (int i = 0; i < img.width; ++i) {
+
+        for (int j = 0; j < img.height; ++j) {
+            if (j % 2 == 0) {
+                img(i, j, 0) = img(i, j, 0) * .5;
+                img(i, j, 1) = img(i, j, 1) * .5;
+                img(i, j, 2) = img(i, j, 2) * .5;
+            }
+        }
+    }
+}
+
+// جيبت كل بيكسل بيقبل القسمة على اتنين و غمقت لونه بضرب كل لون في البكسل في نص 
+// ---------------------------------------------------------------------------------------
+// بدايه كود فلتر 10
+void Image_Edges(Image& img) {
+
+    for (int i = 0; i < img.width; ++i) {
+
+        for (int j = 0; j < img.height; ++j) {
+            int r = img(i, j, 0);
+            int g = img(i, j, 1);
+            int b = img(i, j, 2);
+
+            int r2 = img(i + 1, j, 0);
+            int g2 = img(i + 1, j, 1);
+            int b2 = img(i + 1, j, 2);
+
+            int diff = abs(r - r2) + abs(g - g2) + abs(b - b2);
+
+            if (diff > 50) {
+                img(i, j, 0) = 0;
+                img(i, j, 1) = 0;
+                img(i, j, 2) = 0;
+            }
+            else {
+                img(i, j, 0) = 255;
+                img(i, j, 1) = 255;
+                img(i, j, 2) = 255;
+            }
+        }
+    }
+}
+//عشان اجيب الحواف كان لازم افرق بين الالوان بين كل بكسل و اللي بعده
+// عشان لو في تغير كبير في اللون هنعرف ان دي حافه
 
 
-//-------------------------------------------------------------------------------------------------------------------
-
-
+// ---------------------------------------------------------------------------------------
+//==========================================================================================================================
 int main() {
     string image_name;
     cout << "write the name for image: ";
@@ -727,22 +1186,26 @@ int main() {
 
 
 
-
     cout << " Image filter Menu " << endl;
     cout << "1. Grayscale Filter" << endl;
     cout << "2. flip" << endl;
-    cout << "3. black_white" << endl;
-    cout << "4. rotateImage" << endl;
-    cout << "5. Image_Edges" << endl;
-    cout << "6. old_television_effect" << endl;
-    cout << "7. Invert Image" << endl;
-    cout << "8. Darken / Lighten Image" << endl;
-    cout << "9. merge_image" << endl;
-    cout << "10. flip" << endl;
-    cout << "11. Crop Image" << endl;
-    cout << "12. Purple Filter" << endl;
-    cout << "13. Oil Painting" << endl;
-    cout << "0. Exit" << endl;
+    cout << "3.rotate filter" << endl;
+    cout << "4. black_white" << endl;
+    cout << "5. frameImage" << endl;
+    cout << "6. resizeImage" << endl;
+    cout << "7. invertImage " << endl;
+    cout << "8.darken_lighten " << endl;
+    cout << "9.merge_image" << endl;
+    cout << "10.natural_sunlight" << endl;
+    cout << "11. infraredfilter" << endl;
+    cout << "12. blurimage Filter" << endl;
+    cout << "13. skewimage Filter" << endl;
+    cout << "14. cropImage Filter" << endl;
+    cout << "15. purpleFilter Filter" << endl;
+    cout << "16. oilPainting Filter" << endl;
+    cout << "17. Image_Edges Filter" << endl;
+    cout << "18. old_television_effect Filter" << endl;
+    cout << "19. Exit" << endl;
     cout << "Choose a filter: ";
 
 
@@ -764,7 +1227,7 @@ int main() {
     switch (choice) {
     case 1:
         Grayscale(img);
-        cout << "Grayscale successfully.\n";
+        cout << "Grayscale successfully." << endl;
         break;
 
     case 2:
@@ -773,63 +1236,128 @@ int main() {
         break;
 
     case 3:
-        black_white(img);
-        cout << "color done" << endl;
+        rotateImage(img);
+
+        cout << "retate done" << endl;
+
         break;
 
+
+
     case 4:
-        rotateImage(img);
-        cout << "retate done" << endl;
+        black_white(img);
+
+        cout << " black_white done" << endl;
         break;
 
     case 5:
-        Image_Edges(img);
-        cout << "Image Edges done. " << endl;
+        frameImage(img);
+
+        cout << "frameImage done" << endl;
         break;
 
     case 6:
-        old_television_effect(img);
-        cout << "effect done. " << endl;
+        resizeImage(img);
+
+        cout << "resize done" << endl;
+
         break;
-        
+
     case 7:
         invertImage(img);
-        cout << "invert done. " << endl;
-        break;  
-        
+
+        cout << "invertImage done" << endl;
+
+        break;
+
+
+
     case 8:
         darken_lighten(img);
-        cout << "darken/lighten done. " << endl;
+
+        cout << "darken_lighten done" << endl;
+
         break;
+
+
+
 
     case 9:
         merge_image(img);
-        cout << "merge_image done. " << endl;
+
+        cout << "merge_image done" << endl;
+
         break;
-        
+
+
+
     case 10:
         natural_sunlight(img);
-        cout << "natural_sunlight done. " << endl;
+
+        cout << "natural_sunlight done" << endl;
+
         break;
+
 
     case 11:
-        cropImage(img);
-        cout << "Crop done." << endl;
+        infraredfilter(img);
+        cout << "infraredfilter successfully" << endl;
         break;
+
+
 
     case 12:
-        purpleFilter(img);
-        cout << "Purple Filter done." << endl;
+        blurimage(img);
+        cout << "blurimage successfully" << endl;
         break;
+
+
 
     case 13:
-        oilPainting(img);
-        cout << "Oil Painting done." << endl;
+        skewimage(img);
+        cout << "skewimage successfully" << endl;
         break;
 
-    case 0:
+
+
+    case 14:
+        cropImage(img);
+        cout << "cropImage successfully" << endl;
+        break;
+
+
+
+
+    case 15:
+        purpleFilter(img);
+        cout << "purpleFilter successfully." << endl;
+        break;
+
+
+    case 16:
+        oilPainting(img);
+        cout << "oilPainting successfully." << endl;
+        break;
+
+    case 17:
+        Image_Edges(img);
+        cout << "Image_Edges successfully." << endl;
+        break;
+
+
+
+    case 18:
+        old_television_effect(img);
+        cout << "old_television_effect successfully." << endl;
+        break;
+
+
+
+    case 19:
         cout << "Exiting program." << endl;
         return 0;
+
+
 
 
 
@@ -839,6 +1367,7 @@ int main() {
     }
 
     // هنا ببدا اترجم اختيار اليوزه للخدمه الى هو طلبهاswitchده بقا جزء ال
+    // بكتب فيها اسم الفانكشن الى اليوزر اختارها فالصوره بيبدا يتعمل عليها التعديل على حسب اليوزر اختار اى
 
 
 
